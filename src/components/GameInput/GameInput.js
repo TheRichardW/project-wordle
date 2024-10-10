@@ -1,29 +1,29 @@
 import React, { useState } from "react";
 
 function GameInput({checkGuess, disabled}) {
-  const [guess, setGuess] = useState("");
+  const [attempt, setAttempt] = useState("");
   return (
     <form
       className="guess-input-wrapper"
       onSubmit={(e) => {
         e.preventDefault();
-        checkGuess(guess);
-        setGuess("");
+        checkGuess(attempt);
+        setAttempt("");
       }}
     >
       <label htmlFor="guess-input">Enter guess:</label>
       <input
         id="guess-input"
         type="text"
-        value={guess}
+        value={attempt}
         disabled={disabled}
         minLength={5}
         maxLength={5}
         onChange={(e) => {
           const regex = /^[A-Za-z]+$/;
-          const guessString = e.target.value;
-          if (guessString === "" || regex.test(guessString)) {
-            setGuess(guessString);
+          const attemptString = e.target.value.toUpperCase();
+          if (attemptString === "" || regex.test(attemptString)) {
+            setAttempt(attemptString);
           }
         }}
       />

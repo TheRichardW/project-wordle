@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import GameInput from "../GameInput/GameInput";
 import GameGuesses from "../GameGuesses/GameGuesses";
-import Banner from "../Banner/Banner";
 import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 
 import { sample } from "../../utils";
 import { WORDS } from "../../data";
 import { checkGuess } from "../../game-helpers";
+import GameEndBanner from "../GameEndBanner/GameEndBanner";
 
 // Pick a random word on every pageload.
-// const answer = sample(WORDS);
 // To make debugging easier, we'll log the solution in the console.
 
 function Game() {
@@ -27,7 +26,6 @@ function Game() {
     setGuesses([
       ...guesses,
       {
-        guess: guess.toUpperCase(),
         chars: checkedGuess,
       },
     ]);
@@ -44,12 +42,6 @@ function Game() {
 
   return (
     <>
-      {correctChars === 5 && (
-        <Banner status="win" attempts={guesses.length} reset={resetGame} />
-      )}
-      {guesses.length === NUM_OF_GUESSES_ALLOWED && (
-        <Banner status="lose" answer={answer} reset={resetGame} />
-      )}
       <GameGuesses guesses={guesses} />
       <GameInput
         checkGuess={submitGuess}
@@ -57,6 +49,12 @@ function Game() {
           correctChars === 5 || guesses.length === NUM_OF_GUESSES_ALLOWED
         }
       />
+      {correctChars === 5 && (
+        <GameEndBanner status="win" value={guesses.length} reset={resetGame} />
+      )}
+      {guesses.length === NUM_OF_GUESSES_ALLOWED && (
+        <GameEndBanner status="lose" value={answer} reset={resetGame} />
+      )}
     </>
   );
 }
